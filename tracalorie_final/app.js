@@ -481,5 +481,5 @@ const App = (function(ItemCtrl, StorageCtrl, UICtrl){
   
 })(ItemCtrl, StorageCtrl, UICtrl);
 
-// Initialize App
-App.init();
+// // Initialize App
+// App.init();
