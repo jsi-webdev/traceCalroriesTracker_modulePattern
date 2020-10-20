@@ -3,8 +3,8 @@ const StorageCtrl = (function () {
   // Public methods
   return {
     getItemsFromLS: function () {
-      let item;
-      if (localStorage.getItem("itmes") === null) {
+      let items;
+      if (localStorage.getItem("items") === null) {
         items = [];
       } else {
         items = JSON.parse(localStorage.getItem("items"));

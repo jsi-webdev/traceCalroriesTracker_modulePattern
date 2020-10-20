@@ -77,6 +77,21 @@ const AppCtrl = (function (ItemCtrl, StorageCtrl, UICtrl) {
 
   return {
     init: function () {
+      // Clear edit state / set initial set
+      UICtrl.clearEditState();
+
+      // Fetch items from data structure
+      const items = ItemCtrl.getItems();
+
+      console.log(items);
+      // Check if any items
+      if (items.length === 0) {
+        UICtrl.hideList();
+      } else {
+        // Populate list with items
+        UICtrl.populateItemList(items);
+      }
+
       loadEventListeners();
     },
   };

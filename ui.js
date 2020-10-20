@@ -53,5 +53,29 @@ const UICtrl = (function () {
       document.querySelector(UISelectors.itemNameInput).value = "";
       document.querySelector(UISelectors.itemCaloriesInput).value = "";
     },
+    hideList: function () {
+      document.querySelector(UISelectors.itemList).style.display = "none";
+    },
+    populateItemList: function (items) {
+      let html = "";
+
+      items.forEach((item) => {
+        html += `<strong>${item.name} : </strong> <em>${item.calories} Calories</em>
+        <a href="#" class="secondary-content"
+          ><i class="edit-item fa fa-pencil"></i
+        ></a>`;
+      });
+
+      // Insert list items
+      document.querySelector(UISelectors.itemList).innerHTML = html;
+    },
+    // Button Display State List
+    clearEditState: function () {
+      UICtrl.clearInput();
+      document.querySelector(UISelectors.updateBtn).style.display = "none";
+      document.querySelector(UISelectors.deleteBtn).style.display = "none";
+      document.querySelector(UISelectors.backBtn).style.display = "none";
+      document.querySelector(UISelectors.addBtn).style.display = "inline";
+    },
   };
 })();

@@ -52,5 +52,8 @@ const ItemCtrl = (function () {
       // Return total
       return data.totalCalories;
     },
+    getItems: function () {
+      return data.items;
+    },
   };
 })();
