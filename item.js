@@ -55,5 +55,22 @@ const ItemCtrl = (function () {
     getItems: function () {
       return data.items;
     },
+    getItemById: function (id) {
+      let found = null;
+      // Loop through items
+      data.items.forEach((item) => {
+        if (item.id === id) {
+          found = item;
+        }
+      });
+
+      return found;
+    },
+    setCurrentItem: function (item) {
+      data.currentItem = item;
+    },
+    getCurrentItem: function () {
+      return data.currentItem;
+    },
   };
 })();

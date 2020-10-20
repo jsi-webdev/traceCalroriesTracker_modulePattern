@@ -1,10 +1,10 @@
 // App Controller
 const AppCtrl = (function (ItemCtrl, StorageCtrl, UICtrl) {
+  // Get UI selectors
+  const UISelectors = UICtrl.getSelectors();
+
   // Load event listeners
   const loadEventListeners = function () {
-    // Get UI selectors
-    const UISelectors = UICtrl.getSelectors();
-
     // Disable submit on enter
     document.addEventListener("keypress", (e) => {
       const keycode = e.keycode || e.which;
@@ -20,10 +20,10 @@ const AppCtrl = (function (ItemCtrl, StorageCtrl, UICtrl) {
       .querySelector(UISelectors.addBtn)
       .addEventListener("click", itemAddSubmit);
 
-    // // Edit icon click event
-    // document
-    //   .querySelector(UISelectors.itemList)
-    //   .addEventListener("click", itemEditClick);
+    // Edit icon click event
+    document
+      .querySelector(UISelectors.itemList)
+      .addEventListener("click", itemEditClick);
 
     // // Update item event
     // document
@@ -75,6 +75,28 @@ const AppCtrl = (function (ItemCtrl, StorageCtrl, UICtrl) {
     }
   };
 
+  // Click edit item
+  const itemEditClick = function (e) {
+    console.log(e.target.classList);
+    if (e.target.classList.contains("edit-item")) {
+      // Get list item id (item-0, item-1)
+      const listId = e.target.parentNode.parentNode.id;
+      console.log(listId);
+      // Break into an array
+      const listIdArr = listId.split("-");
+      // Get the actual id
+      const id = parseInt(listIdArr[1]);
+      // Get item
+      const itemToEdit = ItemCtrl.getItemById(id);
+      // Set current item
+      ItemCtrl.setCurrentItem(itemToEdit);
+      // Add item to form
+      UICtrl.addItemToForm();
+
+      e.preventDefault();
+    }
+  };
+
   return {
     init: function () {
       // Clear edit state / set initial set
@@ -83,7 +105,6 @@ const AppCtrl = (function (ItemCtrl, StorageCtrl, UICtrl) {
       // Fetch items from data structure
       const items = ItemCtrl.getItems();
 
-      console.log(items);
       // Check if any items
       if (items.length === 0) {
         UICtrl.hideList();

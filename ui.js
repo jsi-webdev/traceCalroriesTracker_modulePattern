@@ -60,14 +60,24 @@ const UICtrl = (function () {
       let html = "";
 
       items.forEach((item) => {
-        html += `<strong>${item.name} : </strong> <em>${item.calories} Calories</em>
-        <a href="#" class="secondary-content"
-          ><i class="edit-item fa fa-pencil"></i
-        ></a>`;
+        html += `<li class="collection-item" id="item-${item.id}">
+        <strong>${item.name}: </strong> <em>${item.calories} Calories</em>
+        <a href="#" class="secondary-content">
+          <i class="edit-item fa fa-pencil"></i>
+        </a>
+      </li>`;
       });
 
       // Insert list items
       document.querySelector(UISelectors.itemList).innerHTML = html;
+    },
+    addItemToForm: function () {
+      const currentItem = ItemCtrl.getCurrentItem();
+      document.querySelector(UISelectors.itemNameInput).value =
+        currentItem.name;
+      document.querySelector(UISelectors.itemCaloriesInput).value =
+        currentItem.calories;
+      UICtrl.showEditState();
     },
     // Button Display State List
     clearEditState: function () {
@@ -76,6 +86,12 @@ const UICtrl = (function () {
       document.querySelector(UISelectors.deleteBtn).style.display = "none";
       document.querySelector(UISelectors.backBtn).style.display = "none";
       document.querySelector(UISelectors.addBtn).style.display = "inline";
+    },
+    showEditState: function () {
+      document.querySelector(UISelectors.updateBtn).style.display = "inline";
+      document.querySelector(UISelectors.deleteBtn).style.display = "inline";
+      document.querySelector(UISelectors.backBtn).style.display = "inline";
+      document.querySelector(UISelectors.addBtn).style.display = "none";
     },
   };
 })();
