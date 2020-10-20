@@ -1,5 +1,5 @@
 // App Controller
-const AppCtrl = (function (UICtrl) {
+const AppCtrl = (function (ItemCtrl, StorageCtrl, UICtrl) {
   // Load event listeners
   const loadEventListeners = function () {
     // Get UI selectors
@@ -15,10 +15,10 @@ const AppCtrl = (function (UICtrl) {
       }
     });
 
-    // // Add item event
-    // document
-    //   .getSelection(UISelectors.addBtn)
-    //   .addEventListener("click", itemAddSubmit);
+    // Add item event
+    document
+      .querySelector(UISelectors.addBtn)
+      .addEventListener("click", itemAddSubmit);
 
     // // Edit icon click event
     // document
@@ -46,12 +46,41 @@ const AppCtrl = (function (UICtrl) {
     //   .addEventListener("click", clearAllItemsClick);
   };
 
+  // Add item submit
+  const itemAddSubmit = function (e) {
+    // Get form input from UI Controller
+    const input = UICtrl.getItemInput();
+
+    // Check for name and calorie input
+    if (input.name !== "" && input.calories !== "") {
+      // Add item
+      const newItem = ItemCtrl.addItem(input.name, input.calories);
+
+      // Add item to UI list
+      UICtrl.addListItem(newItem);
+
+      // Get total calories
+      const totalCalories = ItemCtrl.getTotalCalories();
+
+      // Add total calories to UI
+      UICtrl.showTotalCalories(totalCalories);
+
+      //Store in localStorage
+      StorageCtrl.storeItem(newItem);
+
+      // Clear fields
+      UICtrl.clearInput();
+
+      e.preventDefault();
+    }
+  };
+
   return {
     init: function () {
       loadEventListeners();
     },
   };
-})(UICtrl);
+})(ItemCtrl, StorageCtrl, UICtrl);
 
 // Initialize App
 AppCtrl.init();
