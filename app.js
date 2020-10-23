@@ -25,10 +25,10 @@ const AppCtrl = (function (ItemCtrl, StorageCtrl, UICtrl) {
       .querySelector(UISelectors.itemList)
       .addEventListener("click", itemEditClick);
 
-    // // Update item event
-    // document
-    //   .querySelector(UISelectors.updateBtn)
-    //   .addEventListener("click", itemUpdateSubmit);
+    // Update item event
+    document
+      .querySelector(UISelectors.updateBtn)
+      .addEventListener("click", itemUpdateSubmit);
 
     // // Delete item event
     // document
@@ -66,7 +66,7 @@ const AppCtrl = (function (ItemCtrl, StorageCtrl, UICtrl) {
       UICtrl.showTotalCalories(totalCalories);
 
       //Store in localStorage
-      StorageCtrl.storeItem(newItem);
+      StorageCtrl.storeItemToLS(newItem);
 
       // Clear fields
       UICtrl.clearInput();
@@ -77,11 +77,9 @@ const AppCtrl = (function (ItemCtrl, StorageCtrl, UICtrl) {
 
   // Click edit item
   const itemEditClick = function (e) {
-    console.log(e.target.classList);
     if (e.target.classList.contains("edit-item")) {
       // Get list item id (item-0, item-1)
       const listId = e.target.parentNode.parentNode.id;
-      console.log(listId);
       // Break into an array
       const listIdArr = listId.split("-");
       // Get the actual id
@@ -95,6 +93,26 @@ const AppCtrl = (function (ItemCtrl, StorageCtrl, UICtrl) {
 
       e.preventDefault();
     }
+  };
+
+  // Update item submit
+  const itemUpdateSubmit = function (e) {
+    // Get item input
+    const input = UICtrl.getItemInput();
+    // Update item
+    const updatedItem = ItemCtrl.updateItem(input.name, input.calories);
+    // Update UI
+    UICtrl.updateListItem(updatedItem);
+    // Get total calories
+    const totalCalories = ItemCtrl.getTotalCalories();
+    // Add total calories to UI
+    UICtrl.showTotalCalories(totalCalories);
+    // Update local storage
+    StorageCtrl.updateItemToLS(updatedItem);
+
+    UICtrl.clearEditState();
+
+    e.preventDefault();
   };
 
   return {

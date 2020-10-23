@@ -11,7 +11,7 @@ const StorageCtrl = (function () {
       }
       return items;
     },
-    storeItem: function (item) {
+    storeItemToLS: function (item) {
       let items;
       // Check if any items in ls
       if (localStorage.getItem("itmes") === null) {
@@ -23,6 +23,17 @@ const StorageCtrl = (function () {
       // Push new item
       items.push(item);
       // Set ls
+      localStorage.setItem("items", JSON.stringify(items));
+    },
+    updateItemToLS: function (updatedItem) {
+      let items = JSON.parse(localStorage.getItem("items"));
+
+      items.forEach((item, index) => {
+        if (updatedItem.id === item.id) {
+          items.splice(index, 1, updatedItem);
+        }
+      });
+
       localStorage.setItem("items", JSON.stringify(items));
     },
   };
