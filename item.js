@@ -88,5 +88,18 @@ const ItemCtrl = (function () {
 
       return found;
     },
+    deleteItem: function (id) {
+      // Get ids
+      const ids = data.items.map((item) => item.id);
+
+      // Get index
+      const index = ids.indexOf(id);
+
+      // Remove item
+      data.items.splice(index, 1);
+    },
+    clearAllItems: function (e) {
+      data.items = [];
+    },
   };
 })();

@@ -30,20 +30,20 @@ const AppCtrl = (function (ItemCtrl, StorageCtrl, UICtrl) {
       .querySelector(UISelectors.updateBtn)
       .addEventListener("click", itemUpdateSubmit);
 
-    // // Delete item event
-    // document
-    //   .querySelector(UISelectors.deleteBtn)
-    //   .addEventListener("click", itemDeleteSubmit);
+    // Delete item event
+    document
+      .querySelector(UISelectors.deleteBtn)
+      .addEventListener("click", itemDeleteSubmit);
 
-    // // Back button event
-    // document
-    //   .querySelector(UISelectors.backBtn)
-    //   .addEventListener("click", UICtrl.clearEditState);
+    // Back button event
+    document
+      .querySelector(UISelectors.backBtn)
+      .addEventListener("click", UICtrl.clearEditState);
 
-    // // Clear items event
-    // document
-    //   .querySelector(UISelectors.clearBtn)
-    //   .addEventListener("click", clearAllItemsClick);
+    // Clear items event
+    document
+      .querySelector(UISelectors.clearBtn)
+      .addEventListener("click", clearAllItemsClick);
   };
 
   // Add item submit
@@ -115,6 +115,50 @@ const AppCtrl = (function (ItemCtrl, StorageCtrl, UICtrl) {
     e.preventDefault();
   };
 
+  // Delete button event
+  const itemDeleteSubmit = function (e) {
+    // Get current item
+    const currentItem = ItemCtrl.getCurrentItem();
+
+    // Delete from data structure
+    ItemCtrl.deleteItem(currentItem.id);
+
+    // Delete from UI
+    UICtrl.deleteListItem(currentItem.id);
+
+    // Get total calories
+    const totalCalories = ItemCtrl.getTotalCalories();
+    // Add total calories to UI
+    UICtrl.showTotalCalories(totalCalories);
+
+    // Delete from local storage
+    StorageCtrl.deleteItemFromLS(currentItem.id);
+
+    UICtrl.clearEditState();
+
+    e.preventDefault();
+  };
+
+  // Clear items event
+  const clearAllItemsClick = function (e) {
+    // Delete all items from data structure
+    ItemCtrl.clearAllItems();
+
+    // Get total calories
+    const totalCalories = ItemCtrl.getTotalCalories();
+    // Add total calories to UI
+    UICtrl.showTotalCalories(totalCalories);
+
+    // Remove from UI
+    UICtrl.removeItems();
+
+    // Clear from local storage
+    StorageCtrl.clearItemsFromLS();
+
+    // Hide UL
+    UICtrl.hideList();
+  };
+
   return {
     init: function () {
       // Clear edit state / set initial set
@@ -130,6 +174,11 @@ const AppCtrl = (function (ItemCtrl, StorageCtrl, UICtrl) {
         // Populate list with items
         UICtrl.populateItemList(items);
       }
+
+      // Get total calories
+      const totalCalories = ItemCtrl.getTotalCalories();
+      // Add total calories to UI
+      UICtrl.showTotalCalories(totalCalories);
 
       loadEventListeners();
     },
